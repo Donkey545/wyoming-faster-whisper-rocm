@@ -78,19 +78,25 @@ services:
       - HSA_OVERRIDE_GFX_VERSION=9.0.0 #This line can be removed if newer than VEGA
 ```
 
-3. Run Docker Compose and Open an Interactive Terminal
+### Optional Manual Build
+In the docker file, comment out the build script line, and chand the entrypoint command to `#ENTRYPOINT ["tail", "-f", "/dev/null"]`. Exporting the Pytorch ROCm Arch as an environment variable will restrict the scope of the build to your specific architecture. This caused some problems for me on my APU, so the support may vary.  Refer to the instruction on the ROCm Installation for [CTranslate2-rocm](https://github.com/arlo-phoenix/CTranslate2-rocm). 
+
+3o. Run Docker Compose and Open an Interactive Terminal
 ``` bash
-docker compose up -d
+docker compose up -d --build
 ...
 docker exec -it faster-whisper-rocm  bash
 ```
 
-4. Run the build script. This will take several minutes as it is building all of the graphic architecture versions. You can scope this down with an optional environment variable.
+4o. Run the build script. This will take several minutes as it is building all of the graphic architecture versions. You can scope this down with an optional environment variable.
 ``` bash
 #export PYTORCH_ROCM_ARCH=gfx1030 #optional
 ./src/build.sh
 ```
-5. Start the service:
+5o. Start the service:
 ``` bash
 ./run.sh
+# you can send this to background and run detached to have it operate as normal now.
+# nohup run.sh  &
+
 ```

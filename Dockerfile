@@ -7,7 +7,7 @@ COPY src /src
 
 WORKDIR /src
 RUN git clone https://github.com/arlo-phoenix/CTranslate2-rocm.git --recurse-submodules
+RUN ./build.sh
 
-
-#ENTRYPOINT ["/src/run.sh"]
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+ENTRYPOINT ["/src/run.sh"]
+#ENTRYPOINT ["tail", "-f", "/dev/null"]
