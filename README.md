@@ -77,6 +77,11 @@ services:
     environment:
       - HSA_OVERRIDE_GFX_VERSION=9.0.0 #This line can be removed if newer than VEGA
 ```
+3. Run Docker Compose
+``` bash
+docker compose up -d --build
+```
+At this point you can configure the Whisper service with Wyoming in home assistant with the `<dockerhost_ip_address>:10300`.
 
 ### Optional Manual Build
 In the docker file, comment out the build script line, and chand the entrypoint command to `#ENTRYPOINT ["tail", "-f", "/dev/null"]`. Exporting the Pytorch ROCm Arch as an environment variable will restrict the scope of the build to your specific architecture. This caused some problems for me on my APU, so the support may vary.  Refer to the instruction on the ROCm Installation for [CTranslate2-rocm](https://github.com/arlo-phoenix/CTranslate2-rocm). 
