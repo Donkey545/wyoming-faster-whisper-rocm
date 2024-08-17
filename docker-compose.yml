@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  whisper:
+    container_name: faster-whisper-rocm
+    restart: unless-stopped
+    build:
+      context: .
+    image: wyoming-faster-whisper-rocm
+    volumes:
+      - ./data:/data
+    ports:
+      - "10300:10300"
+    devices:
+      - "/dev/dri"
+      - "/dev/kfd"
+    environment:
+      - HSA_OVERRIDE_GFX_VERSION=9.0.0
