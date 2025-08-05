@@ -76,6 +76,7 @@ services:
       - "/dev/kfd"
     environment:
       - HSA_OVERRIDE_GFX_VERSION=9.0.0 #This line can be removed if newer than VEGA
+      - PYTORCH_ROCM_ARCH=gfx906
 ```
 3. Run Docker Compose
 ``` bash
