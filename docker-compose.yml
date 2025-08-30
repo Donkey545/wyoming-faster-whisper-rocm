@@ -1,12 +1,19 @@
-version: "3"
-
 services:
   whisper:
     container_name: faster-whisper-rocm
     restart: unless-stopped
     build:
       context: .
+      args:
+        - GFX=gfx1101
+        - WHISPER_MODEL=distil-small.en
     image: wyoming-faster-whisper-rocm
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp=unconfined
+    ipc: host
+    shm_size: 8G
     volumes:
       - ./data:/data
     ports:
@@ -14,5 +21,5 @@ services:
     devices:
       - "/dev/dri"
       - "/dev/kfd"
-    environment:
-      - HSA_OVERRIDE_GFX_VERSION=9.0.0
+#    environment:
+#      - HSA_OVERRIDE_GFX_VERSION=9.0.0

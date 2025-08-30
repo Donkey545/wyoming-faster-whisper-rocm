@@ -39,7 +39,7 @@ echo -e "${On_Gre} 2.  Running CMake with Architecture Spec'd${RCol}"
 echo -e "${Gre} -----------------------------------------------------------------${RCol}\n"
 
 # Run cmake with specified options
-CLANG_CMAKE_CXX_COMPILER=clang++ CXX=clang++ HIPCXX="$(hipconfig -l)/clang" HIP_PATH="$(hipconfig -R)" \
+CLANG_CMAKE_CXX_COMPILER="$(hipconfig -l)/clang++" CXX="$(hipconfig -l)/clang++" HIPCXX="$(hipconfig -l)/clang" HIP_PATH="$(hipconfig -R)" \
 cmake -S . -B build -DWITH_MKL=OFF -DWITH_HIP=ON -DCMAKE_HIP_ARCHITECTURES=$PYTORCH_ROCM_ARCH -DBUILD_TESTS=ON -DWITH_CUDNN=ON
 
 # Build the project with 16 parallel jobs
@@ -67,13 +67,10 @@ sudo ldconfig
 
 
 echo -e "\n${Gre} -----------------------------------------------------------------${RCol}"
-echo -e "${On_Gre} Python Package Assembly Omitted ${RCol}"
+echo -e "${On_Gre} 5. Python Package Assembly ${RCol}"
 echo -e "${Gre} -----------------------------------------------------------------${RCol}\n"
 # Change to the python directory
-# cd ../python
-
-# # everything is functioning up to here, but then the python package build fails
-# # possibly build it in conda then install it outside of conda?
+cd ../python
 
 # echo -e "${Gre} -----------------------------------------------------------------${RCol}"
 # echo -e "${On_Gre} 5. Setting Up Conda Environment.${RCol}"
@@ -85,25 +82,27 @@ echo -e "${Gre} ----------------------------------------------------------------
 # # Activate the conda environment
 # source activate py_3.9
 
-# echo -e "\n${Gre} -----------------------------------------------------------------${RCol}"
-# echo -e "${On_Gre} 6. Installing Python Requirements${RCol}"
-# echo -e "${Gre} -----------------------------------------------------------------${RCol}\n"
+echo -e "\n${Gre} -----------------------------------------------------------------${RCol}"
+echo -e "${On_Gre} 6. Installing Python Requirements${RCol}"
+echo -e "${Gre} -----------------------------------------------------------------${RCol}\n"
 # # Install Python dependencies
-# pip install wheel==0.43.0 setuptools==69.5.1 pybind11==2.11.1
+#pip install wheel==0.43.0 setuptools==69.5.1 pybind11==2.11.1
+pip install -r install_requirements.txt
 
-# echo -e "\n${Gre} -----------------------------------------------------------------${RCol}"
-# echo -e "${On_Gre} 7. Creating Wheel File${RCol}"
-# echo -e "${Gre} -----------------------------------------------------------------${RCol}\n"
+echo -e "\n${Gre} -----------------------------------------------------------------${RCol}"
+echo -e "${On_Gre} 7. Creating Wheel File${RCol}"
+echo -e "${Gre} -----------------------------------------------------------------${RCol}\n"
 
 # # Build the Python wheel
-# python setup.py bdist_wheel
+export CTRANSLATE2_ROOT=/usr/local
+python3 setup.py bdist_wheel
 
-# echo -e "\n${Gre} -----------------------------------------------------------------${RCol}"
-# echo -e "${On_Gre} 8. Installing Wheel File.${RCol}"
-# echo -e "${Gre} -----------------------------------------------------------------${RCol}\n"
+echo -e "\n${Gre} -----------------------------------------------------------------${RCol}"
+echo -e "${On_Gre} 8. Installing Wheel File.${RCol}"
+echo -e "${Gre} -----------------------------------------------------------------${RCol}\n"
 
 # # Install the built wheel
-# pip install dist/*.whl --no-deps
+pip install dist/*.whl --no-deps
 
 # Update the library path
 # echo -e "$\n{Gre} -----------------------------------------------------------------${RCol}"
@@ -126,9 +125,9 @@ echo -e "${Gre} ----------------------------------------------------------------
 # echo -e "${Gre} -----------------------------------------------------------------${RCol}"
 
 
-echo -e "\n${Gre} -----------------------------------------------------------------${RCol}"
-echo -e "${On_Gre} FINAL. Installing Wheel File.${RCol}"
-echo -e "${Gre} -----------------------------------------------------------------${RCol}\n"
+# echo -e "\n${Gre} -----------------------------------------------------------------${RCol}"
+# echo -e "${On_Gre} FINAL. Installing Wheel File.${RCol}"
+# echo -e "${Gre} -----------------------------------------------------------------${RCol}\n"
 
 # Install the built wheel
-pip install /src/*.whl
+# pip install /src/*.whl
